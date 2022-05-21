@@ -1,5 +1,9 @@
 package app;
 
+import utils.Baggage;
+import utils.ID;
+import utils.Gender;
+
 public final class Passenger {
 
     private final String name;
@@ -25,6 +29,10 @@ public final class Passenger {
         this.surname = surname;
         PassengerNumber = PassengerNumbersCount;
         PassengerNumbersCount++;
+    }
+
+    Passenger(Passenger passenger) {
+        throw new UnsupportedOperationException("Not supported yet.");
     }
 
     public void setBirthYear(int birthYear) {
@@ -71,9 +79,9 @@ public final class Passenger {
 
     public void setTypeOfBaggage(char typeOfBaggage) {
         if (typeOfBaggage == 's' || typeOfBaggage == 'S') {
-            this.typeOfBaggage = Baggage.S;
+            this.typeOfBaggage = Baggage.Small;
         } else {
-            this.typeOfBaggage = Baggage.L;
+            this.typeOfBaggage = Baggage.Large;
         }
     }
 
@@ -151,6 +159,15 @@ public final class Passenger {
 
     public char getSeat() {
         return seat;
+    }
+    
+    @Override
+    public String toString() {
+        return this.name + " " + this.surname + " " + this.gender + " " + this.id + " " + this.IDNumber + " " + this.numberOfBaggage + " " + this.typeOfBaggage + " " + this.row + this.seat + " " + this.Catering;
+    }
+    
+    public String generateBoardingPass() {
+        return this.name + " " + this.surname + "\nGender: " + this.gender + "\n" + this.id + " " + this.IDNumber + "\n" + this.numberOfBaggage + "x " + this.typeOfBaggage + " Baggage\nSeat: " + this.row + this.seat + "\nFrequent flyer program: " + this.numberFrequentFlyerProgram;
     }
 
 }

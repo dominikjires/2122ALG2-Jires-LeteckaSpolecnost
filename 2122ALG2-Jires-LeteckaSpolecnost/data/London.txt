@@ -1,0 +1,5 @@
+   date    flight number departure airport arrival airport departure time arrival time type of aircraft registration of aircraft
+07.06.2022     0100             PRG              LTN            16:10        17:05          A320                OK-TUL
+07.06.2022     0101             LTN              PRG            17:35        19:30          A320                OK-TUL
+10.06.2022     0100             PRG              LTN            08:00        08:55          A320                OK-ALG
+10.06.2022     0101             LTN              PRG            09:25        12:20          A320                OK-ALG
