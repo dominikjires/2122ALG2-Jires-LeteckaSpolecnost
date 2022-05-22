@@ -166,7 +166,7 @@ public final class Passenger {
         return this.name + " " + this.surname + " " + this.gender + " " + this.id + " " + this.IDNumber + " " + this.numberOfBaggage + " " + this.typeOfBaggage + " " + this.row + this.seat + " " + this.Catering;
     }
     
-    public String generateBoardingPass() {
+    public String passengerBoardingPass() {
         return this.name + " " + this.surname + "\nGender: " + this.gender + "\n" + this.id + " " + this.IDNumber + "\n" + this.numberOfBaggage + "x " + this.typeOfBaggage + " Baggage\nSeat: " + this.row + this.seat + "\nFrequent flyer program: " + this.numberFrequentFlyerProgram;
     }
 

@@ -7,6 +7,7 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import utils.TimeTools;
 
 public final class Flight {
 
@@ -159,7 +160,7 @@ public final class Flight {
         Collections.sort(passengers, COMP_BY_NAME);
     }
     
-    public ArrayList<Passenger> getRunnersSortedbySurName() {
+    public ArrayList<Passenger> getPassengersSortedbySurName() {
         sortBySurname();
         return getPassengers();
     }
@@ -183,6 +184,10 @@ public final class Flight {
         return builder.toString();
     }
     
+    public String generateBoardingPass(int passengerNumber) {
+        return findPassenger(passengerNumber).passengerBoardingPass() + "\nBoarding opens at: " + TimeTools.minutesToStringTime(TimeTools.stringTimeToMinutes(this.departureTime)-30);
+    }
+    
  public static void main(String[] args) {
  Flight ezy2252 = new Flight("06.05.2022",2252, "PRG", "LTN", "16:50", "17:45", "A320", "G-EZAS");
      System.out.println(ezy2252);
@@ -200,7 +205,7 @@ public final class Flight {
      ezy2252.findPassenger(1).setGender('M');
      ezy2252.sortBySurname();    
      System.out.println(ezy2252.toString());
-     System.out.println(ezy2252.findPassenger(1).generateBoardingPass());
+     System.out.println(ezy2252.generateBoardingPass(1));
 
 
 

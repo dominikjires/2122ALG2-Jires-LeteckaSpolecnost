@@ -12,6 +12,8 @@ public final class Destination {
 
     private final String name;
     private static ArrayList<Flight> flights;
+    private static ArrayList<Destination> destinationsNames;
+
 
     public Destination(String name) {
         this.name = name;
@@ -19,6 +21,7 @@ public final class Destination {
     }
 
     public static void loadDestination(File destinations) throws FileNotFoundException, IOException {
+        destinationsNames = new ArrayList<>();
         try (Scanner in = new Scanner(destinations)) {
             String DestinationName;
             in.nextLine();
@@ -26,8 +29,17 @@ public final class Destination {
                 DestinationName = in.next();
                 Destination newDestination = new Destination(DestinationName);
                 loadFlights(new File("data/" + DestinationName + ".txt"));
+                destinationsNames.add(newDestination);
             }
         }
+    }
+    
+    public String getDestinations() {
+        StringBuilder builder = new StringBuilder();
+        for (Destination destination : destinationsNames) {
+            builder.append(destination.toString()).append("\n");
+        }
+        return builder.toString();
     }
 
     public static void loadFlights(File DestinationName) throws FileNotFoundException, IOException {
@@ -65,15 +77,15 @@ public final class Destination {
 
     public static void main(String[] args) {
 
-        try {
-            try {
-                loadDestination(new File("data/destinations.txt"));
-            } catch (RuntimeException e) {
-                System.out.println(e.getMessage());
-            }
-        } catch (IOException e) {
-            System.out.println(e.getMessage());
-        }
+        //try {
+        //    try {
+        //        loadDestination(new File("data/destinations.txt"));
+        //    } catch (RuntimeException e) {
+        //        System.out.println(e.getMessage());
+        //    }
+        //} catch (IOException e) {
+        //    System.out.println(e.getMessage());
+        //}
 
     }
 }

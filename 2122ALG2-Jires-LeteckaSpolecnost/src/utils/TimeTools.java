@@ -2,7 +2,7 @@ package utils;
 
 public final class TimeTools {
 
-    public static String secondsToStringTime(int secondsInput){
+    public static String minutesToStringTime(int secondsInput){
         int hours = secondsInput / 60;
         int minutes = secondsInput % 60;
         return String.format("%02d:%02d", hours, minutes);
@@ -22,7 +22,7 @@ public final class TimeTools {
     
     
     public static void main(String[] args) {
-        System.out.println(secondsToStringTime(61));
+        System.out.println(minutesToStringTime(61));
         System.out.println(timeToMinutes(2, 2));
         System.out.println(stringTimeToMinutes("10:24"));
     }
