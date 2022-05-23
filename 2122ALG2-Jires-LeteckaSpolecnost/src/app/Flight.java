@@ -21,6 +21,8 @@ public final class Flight {
     private final String registrationOfAircraft;
     private int[][] seatMap;
     private static int AllocatedSeatsCount = 1;
+    private static int FlightOrderCount = 1;
+    private final int Sequence;
 
     private final ArrayList<Passenger> passengers;
 
@@ -35,11 +37,14 @@ public final class Flight {
         this.registrationOfAircraft = registrationOfAircraft;
         passengers = new ArrayList<>();
         createSeatMap(this.typeOfAircraft);
+        Sequence = FlightOrderCount;
+        FlightOrderCount++;
     }
 
-    public void registerPassenger(String name, String surname) {
+    public Passenger registerPassenger(String name, String surname) {
         Passenger newPassenger = new Passenger(name, surname);
         this.passengers.add(newPassenger);
+        return newPassenger;
     }
 
     public void removePassenger(int passengerNumber) {
@@ -69,6 +74,10 @@ public final class Flight {
             default:
                 throw new NoSuchElementException("Type of aircraft is unsupported.");
         }
+    }
+
+    public String getDate() {
+        return date;
     }
 
     public void seatAllocation(int passengerNumber) {
@@ -177,16 +186,18 @@ public final class Flight {
     @Override
     public String toString() {
         StringBuilder builder = new StringBuilder();
-        builder.append(this.date).append(" ").append(this.flightNumber).append(" ").append(this.departureAirport).append(" ").append(this.arrivalAirport).append(" ").append(this.departureTime).append(" ").append(this.arrivalTime).append(" ").append(this.typeOfAircraft).append(" ").append(this.registrationOfAircraft).append("\n");
-        for (Passenger passenger : passengers) {
-            builder.append(passenger.toString()).append("\n");
-        }
+        builder.append(this.date).append(" ").append(this.flightNumber).append(" ").append(this.departureAirport).append(" ").append(this.arrivalAirport).append(" ").append(this.departureTime).append(" ").append(this.arrivalTime).append(" ").append(this.typeOfAircraft).append("\n");
         return builder.toString();
     }
-    
+
     public String generateBoardingPass(int passengerNumber) {
-        return findPassenger(passengerNumber).passengerBoardingPass() + "\nBoarding opens at: " + TimeTools.minutesToStringTime(TimeTools.stringTimeToMinutes(this.departureTime)-30);
+        return findPassenger(passengerNumber).passengerBoardingPass() + "\nBoarding opens at: " + TimeTools.minutesToStringTime(TimeTools.stringTimeToMinutes(this.departureTime) - 30);
     }
+
+    public int getSequence() {
+        return Sequence;
+    }
+
     
  public static void main(String[] args) {
  Flight ezy2252 = new Flight("06.05.2022",2252, "PRG", "LTN", "16:50", "17:45", "A320", "G-EZAS");

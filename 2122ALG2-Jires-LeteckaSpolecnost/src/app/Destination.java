@@ -6,40 +6,17 @@ import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
+import java.util.NoSuchElementException;
 import java.util.Scanner;
 
 public final class Destination {
 
     private final String name;
     private static ArrayList<Flight> flights;
-    private static ArrayList<Destination> destinationsNames;
-
 
     public Destination(String name) {
         this.name = name;
         flights = new ArrayList<>();
-    }
-
-    public static void loadDestination(File destinations) throws FileNotFoundException, IOException {
-        destinationsNames = new ArrayList<>();
-        try (Scanner in = new Scanner(destinations)) {
-            String DestinationName;
-            in.nextLine();
-            while (in.hasNext()) {
-                DestinationName = in.next();
-                Destination newDestination = new Destination(DestinationName);
-                loadFlights(new File("data/" + DestinationName + ".txt"));
-                destinationsNames.add(newDestination);
-            }
-        }
-    }
-    
-    public String getDestinations() {
-        StringBuilder builder = new StringBuilder();
-        for (Destination destination : destinationsNames) {
-            builder.append(destination.toString()).append("\n");
-        }
-        return builder.toString();
     }
 
     public static void loadFlights(File DestinationName) throws FileNotFoundException, IOException {
@@ -70,22 +47,34 @@ public final class Destination {
         return name;
     }
     
-    public static void registerFlight(String date,int flightNumber, String departureAirport, String arrivalAirport, String departureTime, String arrivalTime, String typeOfAircraft, String registrationOfAircraft) {
-        Flight newFlight = new Flight(date,flightNumber,departureAirport,arrivalAirport,departureTime, arrivalTime, typeOfAircraft, registrationOfAircraft);
+    public static void registerFlight(String date, int flightNumber, String departureAirport, String arrivalAirport, String departureTime, String arrivalTime, String typeOfAircraft, String registrationOfAircraft) {
+        Flight newFlight = new Flight(date, flightNumber, departureAirport, arrivalAirport, departureTime, arrivalTime, typeOfAircraft, registrationOfAircraft);
         Destination.flights.add(newFlight);
+    }
+    
+    public String toString() {
+        return getName();
+    }
+    
+    public static String getFlights() {
+        StringBuilder builder = new StringBuilder();
+        for (Flight flight : flights) {
+            builder.append(flight.getSequence()).append(". ").append(flight.toString());
+        }
+        return builder.toString();
+    }
+    
+    public Flight findFlight(int sequenceNumber) {
+        for (Flight flight : flights) {
+            if (flight.getSequence() == sequenceNumber) {
+                return flight;
+            }
+        }
+                throw new NoSuchElementException("Passenger not found.");
+
     }
 
     public static void main(String[] args) {
-
-        //try {
-        //    try {
-        //        loadDestination(new File("data/destinations.txt"));
-        //    } catch (RuntimeException e) {
-        //        System.out.println(e.getMessage());
-        //    }
-        //} catch (IOException e) {
-        //    System.out.println(e.getMessage());
-        //}
 
     }
 }

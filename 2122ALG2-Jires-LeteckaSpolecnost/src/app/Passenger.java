@@ -12,7 +12,7 @@ public final class Passenger {
     private int birthMonth;
     private int birthYear;
     private Gender gender;
-    private int IDNumber;
+    private String IDNumber;
     private ID id;
     private boolean paid;
     private int numberOfBaggage;
@@ -61,12 +61,12 @@ public final class Passenger {
         }
     }
 
-    public void setIDNumber(int IDNumber) {
+    public void setIDNumber(String IDNumber) {
         this.IDNumber = IDNumber;
     }
 
-    public void setID(char id) {
-        if (id == 'i' || id == 'I') {
+    public void setID(String id) {
+        if (id == "ID") {
             this.id = ID.ID;
         } else {
             this.id = ID.Passport;
@@ -121,7 +121,7 @@ public final class Passenger {
         return gender;
     }
 
-    public int getIDNumber() {
+    public String getIDNumber() {
         return IDNumber;
     }
 
