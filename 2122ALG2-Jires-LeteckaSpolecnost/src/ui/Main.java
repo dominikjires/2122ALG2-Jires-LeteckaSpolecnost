@@ -9,7 +9,7 @@ public class Main {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    public static void main(String[] args) {
+    public static void main(String[] args) throws IOException {
         Airline a = new Airline("TUL air");
         try {
             try {
@@ -29,9 +29,13 @@ public class Main {
                     case 0:
                         break;
                     case 1:
-                        subMenu.searchDestination();        
+                        subMenu.searchDestination();
                         break;
                     case 2:
+                        subMenu.searchDestinationReservation();
+                        break;
+                    case 3:
+                        subMenu.adminArea();
                         break;
                     default:
                         System.out.println("Request not found");
@@ -49,7 +53,7 @@ public class Main {
         System.out.println("TUL Air");
         System.out.println("--------------------------------------------------------");
 
-        System.out.println("1. Search for a flight\n2. Manage reservation\n0. Exit");
+        System.out.println("1. Search for a flight\n2. Manage reservation\n3. For administrators only\n0. Exit");
     }
 
 

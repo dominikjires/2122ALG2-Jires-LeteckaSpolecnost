@@ -1,0 +1,7 @@
+   date    flight number departure airport arrival airport departure time arrival time type of aircraft registration of aircraft
+06.06.2022     1234             PRG              KSC            08:00        09:00          A320                OK-TUL
+06.06.2022     1235             KSC              PRG            09:30        10:30          A320                OK-TUL
+09.06.2022     1234             PRG              KSC            19:20        20:20          A320                OK-ALG
+09.06.2022     1235             KSC              PRG            20:50        21:50          A320                OK-ALG
+11.06.2022     1234             PRG              KSC            12:05        13:05          A320                OK-TUL
+11.06.2022     1235             KSC              PRG            13:35        14:35          A320                OK-TUL

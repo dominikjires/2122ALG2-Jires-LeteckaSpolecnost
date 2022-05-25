@@ -32,7 +32,7 @@ public final class Passenger {
     }
 
     Passenger(Passenger passenger) {
-        throw new UnsupportedOperationException("Not supported yet.");
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
     public void setBirthYear(int birthYear) {
@@ -163,11 +163,11 @@ public final class Passenger {
     
     @Override
     public String toString() {
-        return this.name + " " + this.surname + " " + this.gender + " " + this.id + " " + this.IDNumber + " " + this.numberOfBaggage + " " + this.typeOfBaggage + " " + this.row + this.seat + " " + this.Catering;
+        return this.name + " " + this.surname + " " + this.gender + " " + this.id + " " + this.IDNumber + " " + this.numberOfBaggage + " " + this.typeOfBaggage + " " + this.row + this.seat + " " + this.Catering + "" + this.row + this.seat;
     }
     
     public String passengerBoardingPass() {
-        return this.name + " " + this.surname + "\nGender: " + this.gender + "\n" + this.id + " " + this.IDNumber + "\n" + this.numberOfBaggage + "x " + this.typeOfBaggage + " Baggage\nSeat: " + this.row + this.seat + "\nFrequent flyer program: " + this.numberFrequentFlyerProgram;
+        return "Seat: " + this.row + this.seat + "\n" + this.name + " " + this.surname + "\nGender: " + this.gender + "\n" + this.id + " " + this.IDNumber + "\n" + this.numberOfBaggage + "x " + this.typeOfBaggage + " Baggage\nFrequent flyer program: " + this.numberFrequentFlyerProgram;
     }
 
 }

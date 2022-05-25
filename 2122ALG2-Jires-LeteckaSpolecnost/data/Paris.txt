@@ -1,0 +1,5 @@
+   date    flight number departure airport arrival airport departure time arrival time type of aircraft registration of aircraft
+08.06.2022     5678             PRG              CDG            18:10        19:40          A320                OK-ALG
+08.06.2022     5679             CDG              PRG            20:10        21:40          A320                OK-ALG
+12.06.2022     5678             PRG              CDG            18:10        19:40          A320                OK-TUL
+12.06.2022     5679             CDG              PRG            20:10        21:40          A320                OK-TUL

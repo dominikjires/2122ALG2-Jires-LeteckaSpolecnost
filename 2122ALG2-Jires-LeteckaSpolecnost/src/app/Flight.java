@@ -1,5 +1,10 @@
 package app;
 
+import java.io.BufferedWriter;
+import java.io.File;
+import java.io.FileWriter;
+import java.io.IOException;
+import java.io.PrintWriter;
 import java.text.Collator;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -7,6 +12,8 @@ import java.util.Comparator;
 import java.util.Locale;
 import java.util.NoSuchElementException;
 import java.util.Random;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import utils.TimeTools;
 
 public final class Flight {
@@ -165,6 +172,14 @@ public final class Flight {
         return copy;
     }
     
+    public String printPassengers(){
+    StringBuilder builder = new StringBuilder();
+        for (Passenger passenger : passengers) {
+            builder.append(passenger.toString()).append("\n");
+        }
+        return builder.toString();
+    }
+    
     private void sortBySurname() {
         Collections.sort(passengers, COMP_BY_NAME);
     }
@@ -191,7 +206,28 @@ public final class Flight {
     }
 
     public String generateBoardingPass(int passengerNumber) {
-        return findPassenger(passengerNumber).passengerBoardingPass() + "\nBoarding opens at: " + TimeTools.minutesToStringTime(TimeTools.stringTimeToMinutes(this.departureTime) - 30);
+        return getDepartureAirport() + " to " + getArrivalAirport() + " | flight: " + getFlightNumber() + " | " + getDate() + "\n" + findPassenger(passengerNumber).passengerBoardingPass() + "\nBoarding opens at: " + TimeTools.minutesToStringTime(TimeTools.stringTimeToMinutes(this.departureTime) - 30);
+    }
+    
+    
+    
+    public void saveToFile(File passengerSurname,int passengerNumber) throws IOException{
+        try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(passengerSurname)))){
+        pw.println("--------------------------------------------------------");
+        pw.println("TUL AIR");
+        pw.println("--------------------------------------------------------");
+        pw.println(generateBoardingPass(passengerNumber));
+        pw.println("--------------------------------------------------------");
+            }
+        }
+    
+    public void printFlight(File flightNumber)  {
+    try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(flightNumber)))){
+    pw.println(toString());
+    pw.println(printPassengers());
+    }   catch (IOException ex) {
+            Logger.getLogger(Flight.class.getName()).log(Level.SEVERE, null, ex);
+        }
     }
 
     public int getSequence() {
@@ -222,5 +258,6 @@ public final class Flight {
 
  
  }
+
     
 }

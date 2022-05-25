@@ -1,6 +1,5 @@
 package app;
 
-import static app.Destination.loadFlights;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
@@ -20,13 +19,12 @@ public class Airline {
 
     public static void loadDestination(File destinations) throws FileNotFoundException, IOException {;
         try (Scanner in = new Scanner(destinations)) {
-            String DestinationName;
+            String destinationName;
             in.nextLine();
-            destinationsList = new ArrayList<>();
             while (in.hasNext()) {
-                DestinationName = in.next();
-                Destination newDestination = new Destination(DestinationName);
-                loadFlights(new File("data/" + DestinationName + ".txt"));
+                destinationName = in.next();
+                Destination newDestination = new Destination(destinationName);
+                newDestination.loadFlights(new File("data/" + destinationName + ".txt"));
                 destinationsList.add(newDestination);
             }
         }
@@ -34,15 +32,13 @@ public class Airline {
 
     public static String getDestinations() {
         StringBuilder builder = new StringBuilder();
-        for (Destination destination : destinationsList) {
-            builder.append(destinationsList.toString()).append("\n");
-        }
+        builder.append(destinationsList.toString()).append("\n");
         return builder.toString();
     }
    
     public static Destination findDestination(String name) {
         for (Destination destination : destinationsList) {
-            if (destination.getName() == null ? name == null : destination.getName().equals(name)) {
+            if (destination.getName().equals(name)) {
                 return destination;
             }
         }
@@ -50,18 +46,18 @@ public class Airline {
         throw new NoSuchElementException("Destination not found.");
     }
 
-    public static void main(String[] args) {
-        //Airline a = new Airline("TUL air");
-        //try {
-        //    try {
-        //        a.loadDestination(new File("data/destinations.txt"));
-        //        System.out.println(getDestinations());
-        //    } catch (RuntimeException e) {
-        //        System.out.println(e.getMessage());
-        //    }
-        //} catch (IOException e) {
-        //    System.out.println(e.getMessage());
-        //}
+    public static void main(String[] args) throws IOException {
+       // Airline a = new Airline("TUL air");
+       // try {
+       //     try {
+       //         a.loadDestination(new File("data/destinations.txt"));
+       //         System.out.println(getDestinations());
+       //     } catch (RuntimeException e) {
+       //         System.out.println(e.getMessage());
+       //     }
+       // } catch (IOException e) {
+       //     System.out.println(e.getMessage());
+       // }
     }
     
 }

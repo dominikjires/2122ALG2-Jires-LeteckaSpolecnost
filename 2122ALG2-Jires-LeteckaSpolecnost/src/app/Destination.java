@@ -7,19 +7,18 @@ import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
-import java.util.Scanner;
 
 public final class Destination {
 
     private final String name;
-    private static ArrayList<Flight> flights;
+    private ArrayList<Flight> flights;
 
     public Destination(String name) {
         this.name = name;
         flights = new ArrayList<>();
     }
 
-    public static void loadFlights(File DestinationName) throws FileNotFoundException, IOException {
+    public void loadFlights(File DestinationName) throws FileNotFoundException, IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(DestinationName))) {
             int lineNumber = 1;
             String date;
@@ -47,16 +46,16 @@ public final class Destination {
         return name;
     }
     
-    public static void registerFlight(String date, int flightNumber, String departureAirport, String arrivalAirport, String departureTime, String arrivalTime, String typeOfAircraft, String registrationOfAircraft) {
+    public void registerFlight(String date, int flightNumber, String departureAirport, String arrivalAirport, String departureTime, String arrivalTime, String typeOfAircraft, String registrationOfAircraft) {
         Flight newFlight = new Flight(date, flightNumber, departureAirport, arrivalAirport, departureTime, arrivalTime, typeOfAircraft, registrationOfAircraft);
-        Destination.flights.add(newFlight);
+        flights.add(newFlight);
     }
     
     public String toString() {
         return getName();
     }
     
-    public static String getFlights() {
+    public String getFlights() {
         StringBuilder builder = new StringBuilder();
         for (Flight flight : flights) {
             builder.append(flight.getSequence()).append(". ").append(flight.toString());

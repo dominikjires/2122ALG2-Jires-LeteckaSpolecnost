@@ -3,14 +3,18 @@ package ui;
 import app.Destination;
 import app.Flight;
 import app.Passenger;
+import java.io.File;
+import java.io.IOException;
 import java.util.NoSuchElementException;
 import java.util.Scanner;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 class subMenu {
 
     private static final Scanner sc = new Scanner(System.in);
 
-    public static void searchDestination() {
+    public static void searchDestination() throws IOException {
         String search;
         Boolean success = false;
         do {
@@ -33,13 +37,15 @@ class subMenu {
         } while (success == false);
     }
 
-    private static void searchFlight(String destinationName) {
+    private static void searchFlight(String destinationName) throws IOException {
+        Destination destination;
         Boolean success = false;
         do {
             System.out.println("--------------------------------------------------------");
 
-            System.out.println("Here are available flights to: " + app.Airline.findDestination(destinationName).getName() + "\n");
-            System.out.print(Destination.getFlights());
+            System.out.println("Here are available flights from/to: " + app.Airline.findDestination(destinationName).getName() + "\n");
+            destination = app.Airline.findDestination(destinationName);
+            System.out.print(destination.getFlights());
             System.out.println("");
             System.out.println("Please enter a sequence number of flight:\nfor return 0.");
             int number = sc.nextInt();
@@ -47,9 +53,11 @@ class subMenu {
                 return;
             }
             try {
-                app.Airline.findDestination(destinationName).findFlight(number);
+                destination.findFlight(number);
                 success = true;
+                
                 passengerRegistration(destinationName, number);
+                
             } catch (NoSuchElementException e) {
                 System.out.println("Flight not found, please try again");
             }
@@ -57,7 +65,7 @@ class subMenu {
         } while (success == false);
     }
 
-    private static void passengerRegistration(String destinationName, int number) {
+    private static void passengerRegistration(String destinationName, int number) throws IOException {
         System.out.println("--------------------------------------------------------");
 
         System.out.println("please fill in your contact details");
@@ -79,20 +87,20 @@ class subMenu {
         manageReservation(destination, flight, passenger);
     }
 
-    private static void manageReservation(Destination destination, Flight flight, Passenger passenger) {
+    private static void manageReservation(Destination destination, Flight flight, Passenger passenger) throws IOException {
         System.out.println("--------------------------------------------------------");
         System.out.println("Here is your flight!");
-        System.out.println("Your flight " + flight.getFlightNumber() + " to " + destination.getName() + " on " + flight.getDate() + " departs at " + flight.getDepartureTime());
+        System.out.println("Your flight " + flight.getFlightNumber() + " to " + flight.getDepartureAirport() + " on " + flight.getDate() + " departs at " + flight.getDepartureTime());
         System.out.println("Your booking number is " + passenger.getPassengerNumber());
         System.out.println("--------------------------------------------------------");
         if (!passenger.isPaid()) {
             System.out.println("do you want to pay? y/n");
             char answer;
-            while (!Character.toString(answer = sc.next().charAt(0)).matches(".*\\w.*")) {
-                System.out.println("please try again:");
+            while ((answer = sc.next().charAt(0))!='y') {               
                 if (answer == 'y' || answer == 'Y' || answer == 'n' || answer == 'N') {
                     break;
                 }
+                System.out.println("please try again:");
             };
             if (answer == 'y' || answer == 'Y') {
                 System.out.println("Successfully paid!");
@@ -116,6 +124,7 @@ class subMenu {
                             checkIn(destination, flight, passenger);
                             break;
                         case 2:
+                            choice=(cancelFlight(passenger, flight))?0:2;
                             break;
                         case 3:
                             showBoardingPass(passenger, flight);
@@ -137,10 +146,10 @@ class subMenu {
         System.out.println("--------------------------------------------------------");
         System.out.println("Your Booking:");
         System.out.println("--------------------------------------------------------");
-        System.out.println("1. Check-in\n2. Change flight\n3. Generate boarding pass\n0. Exit");
+        System.out.println("1. Check-in\n2. Cancel flight\n3. Generate boarding pass\n0. Exit");
     }
 
-    private static void checkIn(Destination destination, Flight flight, Passenger passenger) {
+    private static void checkIn(Destination destination, Flight flight, Passenger passenger) throws IOException {
         if (passenger.getBirthDay()!=0) {
             System.out.println("You are already checked");
             return;
@@ -174,7 +183,7 @@ class subMenu {
         
         //Gender
         System.out.println("Please enter your gender:");
-        System.out.println("f for female, m for man");
+        System.out.println("f for female, m for male");
         char gender;
         while ((gender = sc.next().charAt(0)) != 'f') {
             if (gender == 'f' || gender == 'F' || gender == 'm' || gender == 'M') {
@@ -220,11 +229,11 @@ class subMenu {
         //Type and number of baggage
         System.out.println("do you want to add some baggage? y/n");
         char answer;
-        while (!Character.toString(answer = sc.next().charAt(0)).matches(".*\\w.*")) {
-            System.out.println("please try again:");
+        while ((answer = sc.next().charAt(0))!='y') {           
             if (answer == 'y' || answer == 'Y' || answer == 'n' || answer == 'N') {
                 break;
             }
+            System.out.println("please try again:");
         };
         if (answer == 'y' || answer == 'Y') {
 
@@ -245,7 +254,7 @@ class subMenu {
             System.out.println("How much bagagge? max 2 per person");
             int numberOfBaggage;
             while ((numberOfBaggage = sc.nextInt()) != 1) {
-                if (baggage == 1 || baggage == 2) {
+                if (numberOfBaggage == 1 || numberOfBaggage == 2) {
                     break;
                 }
                 System.out.println("please try again:");
@@ -260,15 +269,15 @@ class subMenu {
         System.out.println("--------------------------------------------------------");
 
         //Frequent flyer program (optional)
-        char anwerFFP;
+        char answerFFP;
         System.out.println("Are you a member of the frequent flyer program? y/n");
-        while (!Character.toString(anwerFFP = sc.next().charAt(0)).matches(".*\\w.*")) {
-            System.out.println("please try again:");
-            if (anwerFFP == 'y' || anwerFFP == 'Y' || anwerFFP == 'n' || anwerFFP == 'N') {
-                break;
+        while ((answerFFP = sc.next().charAt(0))!='y') {            
+            if (answerFFP == 'y' || answerFFP == 'Y' || answerFFP == 'n' || answerFFP == 'N') {
+                break;    
             }
+            System.out.println("please try again:");
         };
-        if (anwerFFP == 'y' || anwerFFP == 'Y') {
+        if (answerFFP == 'y' || answerFFP == 'Y') {
             System.out.println("Please fill in the number of FFP:");
             int FFPNumber;
             while (!Integer.toString(FFPNumber = sc.nextInt()).matches(".*\\w.*")) {
@@ -281,22 +290,27 @@ class subMenu {
         //Catering (optional)
         char answerCatering;
         System.out.println("Do you want to order some catering? y/n");
-        while (!Character.toString(answerCatering = sc.next().charAt(0)).matches(".*\\w.*")) {
-            System.out.println("please try again:");
+        while ((answerCatering = sc.next().charAt(0))!='y') {            
             if (answerCatering == 'y' || answerCatering == 'Y' || answerCatering == 'n' || answerCatering == 'N') {
                 break;
             }
+            System.out.println("please try again:");
         };
         if (answer == 'y' || answer == 'Y') {
             passenger.setCatering("YES");
         } else {
             passenger.setCatering("NO");
         }
+        try{
         flight.seatAllocation(passenger.getPassengerNumber());
         showBoardingPass(passenger, flight);
+        } catch(NoSuchElementException e) {
+                System.out.println("Flight is full please change your flight");
+                return;
+        }
     }
 
-    private static void showBoardingPass(Passenger passenger, Flight flight) {
+    private static void showBoardingPass(Passenger passenger, Flight flight) throws IOException {
         if (passenger.getBirthDay()==0) {
             System.out.println("Please check in first");
             return;
@@ -307,14 +321,174 @@ class subMenu {
 
         char answerPdf;
         System.out.println("Do you want to save the boarding pass to pdf? y/n");
-        while (!Character.toString(answerPdf = sc.next().charAt(0)).matches(".*\\w.*")) {
-            System.out.println("please try again:");
+        while ((answerPdf = sc.next().charAt(0))!='y') {            
             if (answerPdf == 'y' || answerPdf == 'Y' || answerPdf == 'n' || answerPdf == 'N') {
                 break;
             }
+            System.out.println("please try again:");
         };
         if (answerPdf == 'y' || answerPdf == 'Y') {
+            flight.saveToFile(new File("data/BoardingPass" + passenger.getSurname() + ".txt"),passenger.getPassengerNumber());
             System.out.println("Boarding pass saved");
         }
     }
+
+    static void searchDestinationReservation() throws IOException {
+    String search;
+        Boolean success = false;
+        Destination destination;
+        do {
+            System.out.println("--------------------------------------------------------");
+            System.out.println("Please enter your destination name:\nfor return 0.");
+            String destinationName = sc.next();
+            if ("0".equals(destinationName)) {
+                return;
+            }
+
+            try {
+                app.Airline.destinationsList.contains(app.Airline.findDestination(destinationName));
+                success = true;
+                destination = app.Airline.findDestination(destinationName);
+                searchFlightReservation(destination);
+            } catch (NoSuchElementException e) {
+                System.out.println("Destination not found, please try again");
+            }
+        } while (success == false);
+    }
+
+    private static void searchFlightReservation(Destination destination) throws IOException {
+        Boolean success = false;
+        Flight flight;
+        do {
+                        System.out.println("--------------------------------------------------------");
+            System.out.print(destination.getFlights());
+            System.out.println("");
+            System.out.println("Please enter a sequence number of your flight:\nfor return 0.");
+            int number = sc.nextInt();
+            if (number == 0) {
+                return;
+            }
+            try {
+                flight=destination.findFlight(number);
+                success = true;
+                searchPassengerNumber(destination,flight);
+            } catch (NoSuchElementException e) {
+                System.out.println("Flight not found, please try again");
+            }
+
+        } while (success == false);
+    }
+
+    private static void searchPassengerNumber(Destination destination, Flight flight) throws IOException {
+       Boolean success = false;
+        Passenger passenger;
+        do {    
+            System.out.println("--------------------------------------------------------");
+            System.out.println("Please enter your booking number:\nfor return 0.");
+            int number = sc.nextInt();
+            if (number == 0) {
+                return;
+            }
+            try {
+                passenger=flight.findPassenger(number);
+                success = true;
+                manageReservation(destination,flight,passenger);
+                
+            } catch (NoSuchElementException e) {
+                System.out.println("Booking number not found, please try again");
+            }
+
+        } while (success == false);
+    }
+
+    private static boolean cancelFlight(Passenger passenger, Flight flight) {
+        
+        if (passenger.getRow()!=0) {
+            System.out.println("You cannot cancel the flight after the check-in!");
+            return false;
+        }
+        
+        
+        
+        try {
+                flight.removePassenger(passenger.getPassengerNumber());
+            } catch (NoSuchElementException e) {
+                System.out.println("Passenger not found");
+                return true;
+            }
+        System.out.println("Flight canceled successfully!");
+        return true;
+        
+    }
+
+    static void adminArea(){
+        Boolean success = null;
+    do {
+            System.out.println("--------------------------------------------------------");
+            System.out.println("Please enter a password:\nfor return 0.");
+            String Password = sc.next();
+            if ("0".equals(Password)) {
+                return;
+            }
+            if("TUL".equals(Password)){
+                success = true;
+                DestinationDatabase();
+            } else {
+                System.out.println("Password incorect");
+            }
+        } while (success == false);
+    }
+
+    private static void DestinationDatabase(){
+    String search;
+        Boolean success = false;
+        do {
+            
+            System.out.println(app.Airline.getDestinations());
+            String destinationName = sc.next();
+            if ("0".equals(destinationName)) {
+                return;
+            }
+            try {
+                app.Airline.destinationsList.contains(app.Airline.findDestination(destinationName));
+                Destination destination = app.Airline.findDestination(destinationName);
+                success = true;
+                try {
+                    flightDatabase(destination);
+                } catch (IOException ex) {
+                    Logger.getLogger(subMenu.class.getName()).log(Level.SEVERE, null, ex);
+                }
+            } catch (NoSuchElementException e) {
+                System.out.println("Destination not found, please try again");
+            }
+        } while (success == false);
+    }
+
+    private static void flightDatabase(Destination destination) throws IOException {
+        Boolean success = false;
+        do {
+            System.out.print(destination.getFlights());
+            System.out.println("");
+            int number = sc.nextInt();
+            if (number == 0) {
+                return;
+            }
+            try {
+                destination.findFlight(number);
+                Flight flight = destination.findFlight(number);
+                success = true;
+                flight.printFlight(new File("data/" + flight.getFlightNumber() + "_" + flight.getDate() + ".txt"));
+            } catch (NoSuchElementException e) {
+                System.out.println("Flight not found, please try again");
+            }
+
+        } while (success == false);
+    }
+    
+ 
+
+    
+
+
+
 }
