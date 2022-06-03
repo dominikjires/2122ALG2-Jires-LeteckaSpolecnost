@@ -38,7 +38,7 @@ public class Airline {
    
     public static Destination findDestination(String name) {
         for (Destination destination : destinationsList) {
-            if (destination.getName().equals(name)) {
+            if (destination.getName().equalsIgnoreCase(name)) {
                 return destination;
             }
         }

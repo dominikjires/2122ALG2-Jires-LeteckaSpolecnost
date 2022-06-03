@@ -21,12 +21,15 @@ public class Main {
             System.out.println(e.getMessage());
         }
         int choice;
+        Boolean success = false;
         do {
             try {
+                
                 displayMenu();
                 choice = sc.nextInt();
                 switch (choice) {
                     case 0:
+                        success = true;
                         break;
                     case 1:
                         subMenu.searchDestination();
@@ -45,16 +48,15 @@ public class Main {
                 System.out.println(e.getMessage());
                 choice = 0;
             }
-        } while (choice != 0);
+        } while (!success);
     }
 
     private static void displayMenu() {
-                System.out.println("--------------------------------------------------------");
+        System.out.println("--------------------------------------------------------");
         System.out.println("TUL Air");
         System.out.println("--------------------------------------------------------");
 
-        System.out.println("1. Search for a flight\n2. Manage reservation\n3. For administrators only\n0. Exit");
+        System.out.println("1. Search for a flight\n2. Manage reservation\n3. For administrators only (work in progress)\n0. Exit");
     }
-
 
 }

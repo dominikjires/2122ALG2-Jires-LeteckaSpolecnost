@@ -1,6 +1,6 @@
 package utils;
 
 public enum Baggage {
-    Large, Small;
+    Large, Small, No;
 }
 

@@ -80,8 +80,10 @@ public final class Passenger {
     public void setTypeOfBaggage(char typeOfBaggage) {
         if (typeOfBaggage == 's' || typeOfBaggage == 'S') {
             this.typeOfBaggage = Baggage.Small;
-        } else {
+        } else if (typeOfBaggage == 'l' || typeOfBaggage == 'L') {
             this.typeOfBaggage = Baggage.Large;
+        } else {
+            this.typeOfBaggage = Baggage.No;
         }
     }
 
@@ -163,7 +165,7 @@ public final class Passenger {
     
     @Override
     public String toString() {
-        return this.name + " " + this.surname + " " + this.gender + " " + this.id + " " + this.IDNumber + " " + this.numberOfBaggage + " " + this.typeOfBaggage + " " + this.row + this.seat + " " + this.Catering + "" + this.row + this.seat;
+        return this.name + " " + this.surname + " " + this.gender + " " + this.id + " " + this.IDNumber + " " + this.numberOfBaggage + " " + this.typeOfBaggage + " " + this.row + this.seat + " " + this.Catering;
     }
     
     public String passengerBoardingPass() {

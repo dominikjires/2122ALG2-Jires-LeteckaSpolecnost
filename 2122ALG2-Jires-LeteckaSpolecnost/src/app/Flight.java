@@ -14,6 +14,10 @@ import java.util.NoSuchElementException;
 import java.util.Random;
 import java.util.logging.Level;
 import java.util.logging.Logger;
+import org.apache.pdfbox.pdmodel.PDDocument;
+import org.apache.pdfbox.pdmodel.PDPage;
+import org.apache.pdfbox.pdmodel.PDPageContentStream;
+import org.apache.pdfbox.pdmodel.font.PDType1Font;
 import utils.TimeTools;
 
 public final class Flight {
@@ -172,14 +176,6 @@ public final class Flight {
         return copy;
     }
     
-    public String printPassengers(){
-    StringBuilder builder = new StringBuilder();
-        for (Passenger passenger : passengers) {
-            builder.append(passenger.toString()).append("\n");
-        }
-        return builder.toString();
-    }
-    
     private void sortBySurname() {
         Collections.sort(passengers, COMP_BY_NAME);
     }
@@ -211,23 +207,73 @@ public final class Flight {
     
     
     
-    public void saveToFile(File passengerSurname,int passengerNumber) throws IOException{
-        try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(passengerSurname)))){
-        pw.println("--------------------------------------------------------");
-        pw.println("TUL AIR");
-        pw.println("--------------------------------------------------------");
-        pw.println(generateBoardingPass(passengerNumber));
-        pw.println("--------------------------------------------------------");
+    public void saveToFile(File passengerSurname,Passenger passenger) throws IOException{
+        
+        try (PDDocument document = new PDDocument()) {
+            PDPage boardingPass = new PDPage();
+            document.addPage(boardingPass);
+            PDPageContentStream contentStream = new PDPageContentStream(document, boardingPass);
+            contentStream.beginText();
+            
+            contentStream.setFont(PDType1Font.HELVETICA, 12);            
+            contentStream.setLeading(14.5f);
+            contentStream.newLineAtOffset(25, 725);
+            String text1 = "TUL AIR";
+            String text2 = "This is your boarding pass:";
+            String text3 = getDepartureAirport() + " to " + getArrivalAirport() + " | flight: " + getFlightNumber() + " | " + getDate();
+            String text4 = "Boarding opens at: " + TimeTools.minutesToStringTime(TimeTools.stringTimeToMinutes(this.departureTime) - 30);
+            String text5 = "Seat: " + passenger.getRow() + passenger.getSeat() + " | " + passenger.getName() + " " + passenger.getSurname() + " " + passenger.getGender() + " | " + passenger.getId() + " " + passenger.getIDNumber() + " | " + passenger.getNumberOfBaggage() + "x " + passenger.getTypeOfBaggage() + " Baggage | FFP: " + passenger.getNumberFrequentFlyerProgram();
+            contentStream.showText(text1);
+            contentStream.newLine();
+            contentStream.showText(text2);
+            contentStream.newLine();
+            contentStream.showText(text3);
+            contentStream.newLine();
+            contentStream.showText(text4);
+            contentStream.newLine();
+            contentStream.showText(text5);
+            contentStream.endText();
+            contentStream.close();
+            document.save(new File("C:/Users/jires/OneDrive/Dokumenty/NetBeansProjects/2122ALG2-Jires-LeteckaSpolecnost/data/BoardingPass" + passenger.getSurname() + ".pdf"));
+            document.close();
+        } catch (NoSuchElementException e) {
+                System.out.println("PDF not saved - ERROR");
             }
+       
+        
         }
     
-    public void printFlight(File flightNumber)  {
-    try(PrintWriter pw = new PrintWriter(new BufferedWriter(new FileWriter(flightNumber)))){
-    pw.println(toString());
-    pw.println(printPassengers());
-    }   catch (IOException ex) {
-            Logger.getLogger(Flight.class.getName()).log(Level.SEVERE, null, ex);
+    public void printFlight(File flightNumber) throws IOException  {
+    try (PDDocument document = new PDDocument()) {
+            PDPage flightList = new PDPage();
+            document.addPage(flightList);
+            PDPageContentStream contentStream = new PDPageContentStream(document, flightList);
+            contentStream.beginText();            
+            contentStream.setFont(PDType1Font.HELVETICA, 12);            
+            contentStream.setLeading(14.5f);
+            contentStream.newLineAtOffset(25, 725);
+            String text1 = toString();
+            text1 = text1.replace("\n", "").replace("\r", "");
+            String text2 = "Passengers:";
+            contentStream.showText(text1);
+            contentStream.newLine();
+            contentStream.showText(text2);
+            contentStream.newLine();
+            
+            for (Passenger passenger : passengers) {
+            if (passenger.getRow()!=0) {
+            String textPassenger=passenger.toString();
+            contentStream.showText(textPassenger);
+            contentStream.newLine();
+            }
         }
+            contentStream.endText();
+            contentStream.close();
+            document.save(new File("C:/Users/jires/OneDrive/Dokumenty/NetBeansProjects/2122ALG2-Jires-LeteckaSpolecnost/data/flight" + getFlightNumber() + ".pdf"));
+            document.close();
+        } catch (NoSuchElementException e) {
+                System.out.println("PDF not saved - ERROR");
+            }
     }
 
     public int getSequence() {

@@ -69,7 +69,7 @@ public final class Destination {
                 return flight;
             }
         }
-                throw new NoSuchElementException("Passenger not found.");
+                throw new NoSuchElementException("Flight not found.");
 
     }
 

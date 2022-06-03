@@ -83,6 +83,8 @@ class subMenu {
 
         Destination destination = app.Airline.findDestination(destinationName);
         Flight flight = destination.findFlight(number);
+        name = name.substring(0,1).toUpperCase() + surname.substring(1).toLowerCase();
+        surname = surname.substring(0,1).toUpperCase() + name.substring(1).toLowerCase();
         Passenger passenger = app.Airline.findDestination(destinationName).findFlight(number).registerPassenger(name, surname);
         manageReservation(destination, flight, passenger);
     }
@@ -150,20 +152,20 @@ class subMenu {
     }
 
     private static void checkIn(Destination destination, Flight flight, Passenger passenger) throws IOException {
-        if (passenger.getBirthDay()!=0) {
+        if (passenger.getRow()!=0) {
             System.out.println("You are already checked");
             return;
         }
         //Birth day
         int day;
 
-        System.out.println("Please enter your date of birth: DD/MM/YYYY");
+        System.out.println("Please enter your day of birth:");
         while (!Integer.toString(day = sc.nextInt()).matches("[1-9]|[12][0-9]|3[01]")) {
             System.out.println("please try day again:");
         };
 
         //Birth month
-        System.out.printf("/");
+        System.out.println("Please enter your month of birth:");
         int month;
         while (!Integer.toString(month = sc.nextInt()).matches("[1-9]|1[0-2]")) {
             System.out.println("please try month again:");
@@ -171,7 +173,7 @@ class subMenu {
 
         //Birth year
         int year;
-        System.out.printf("/");
+        System.out.println("Please enter your year of birth:");
         while (!Integer.toString(year = sc.nextInt()).matches("[1-9][0-9][0-9][0-9]")) {
             System.out.println("please try year again:");
         };
@@ -204,7 +206,7 @@ class subMenu {
         System.out.println("1. Passport\n2. ID");
         int number;
         while ((number = sc.nextInt()) != 1) {
-            if (number != 1 || number != 2) {
+            if (number == 1 || number == 2) {
                 break;
             }
             System.out.println("please try again:");
@@ -265,6 +267,8 @@ class subMenu {
                 passenger.setNumberOfBaggage(2);
             }
             System.out.println("Bagagge successfully added!");
+        } else {
+        passenger.setTypeOfBaggage('n');
         }
         System.out.println("--------------------------------------------------------");
 
@@ -328,7 +332,7 @@ class subMenu {
             System.out.println("please try again:");
         };
         if (answerPdf == 'y' || answerPdf == 'Y') {
-            flight.saveToFile(new File("data/BoardingPass" + passenger.getSurname() + ".txt"),passenger.getPassengerNumber());
+            flight.saveToFile(new File("data/BoardingPass" + passenger.getSurname() + ".txt"),passenger);
             System.out.println("Boarding pass saved");
         }
     }
@@ -422,7 +426,7 @@ class subMenu {
     }
 
     static void adminArea(){
-        Boolean success = null;
+        Boolean success = false;
     do {
             System.out.println("--------------------------------------------------------");
             System.out.println("Please enter a password:\nfor return 0.");
