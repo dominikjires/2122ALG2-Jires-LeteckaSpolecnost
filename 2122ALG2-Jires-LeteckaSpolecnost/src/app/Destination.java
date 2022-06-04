@@ -8,16 +8,29 @@ import java.io.IOException;
 import java.util.ArrayList;
 import java.util.NoSuchElementException;
 
+/**
+ * Třída pro destinaci
+ * @author Dominik Jireš
+ */
 public final class Destination {
 
     private final String name;
-    private ArrayList<Flight> flights;
-
+    private final ArrayList<Flight> flights;
+    
+    /**
+     * Konstruktor pro destinaci
+     * @param name String
+     */
     public Destination(String name) {
         this.name = name;
         flights = new ArrayList<>();
     }
-
+    
+    /**
+     * Načítá lety z jednotlivých souborů podle destinace
+     * @param DestinationName File
+     * @throws java.io.FileNotFoundException
+     */
     public void loadFlights(File DestinationName) throws FileNotFoundException, IOException {
         try (BufferedReader br = new BufferedReader(new FileReader(DestinationName))) {
             int lineNumber = 1;
@@ -41,20 +54,44 @@ public final class Destination {
             }
         }
     }
-
+    
+    /**
+     * Vrací jméno
+     * @return String
+     */
     public String getName() {
         return name;
     }
     
+    /**
+     * Registrace letu
+     * @param date String
+     * @param flightNumber int
+     * @param departureAirport String
+     * @param arrivalAirport String
+     * @param departureTime String
+     * @param arrivalTime String
+     * @param typeOfAircraft String
+     * @param registrationOfAircraft String
+     */
     public void registerFlight(String date, int flightNumber, String departureAirport, String arrivalAirport, String departureTime, String arrivalTime, String typeOfAircraft, String registrationOfAircraft) {
         Flight newFlight = new Flight(date, flightNumber, departureAirport, arrivalAirport, departureTime, arrivalTime, typeOfAircraft, registrationOfAircraft);
         flights.add(newFlight);
     }
     
+    /**
+     * Vrací String
+     * @return String 
+     */
+    @Override
     public String toString() {
         return getName();
     }
     
+    /**
+     * Vrací seznam letů do destinace
+     * @return String
+     */
     public String getFlights() {
         StringBuilder builder = new StringBuilder();
         for (Flight flight : flights) {
@@ -62,14 +99,19 @@ public final class Destination {
         }
         return builder.toString();
     }
-    
+
+    /**
+     * Hladá let a pokud ho najde tak vrací flight
+     * @param sequenceNumber int
+     * @return Flight 
+     */
     public Flight findFlight(int sequenceNumber) {
         for (Flight flight : flights) {
             if (flight.getSequence() == sequenceNumber) {
                 return flight;
             }
         }
-                throw new NoSuchElementException("Flight not found.");
+        throw new NoSuchElementException("Flight not found.");
 
     }
 
