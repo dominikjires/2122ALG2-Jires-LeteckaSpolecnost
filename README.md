@@ -67,3 +67,18 @@ Aplikace je tvořena pomocí hlavního menu a submenu. Uživatel zadává výbě
   - `n` - nechci občerstvení
   - `y` - chci uložit palubní vstupenku
   - `n` - nechci uložit palubní vstupenku
+
+### Popis struktury vstupních a výstupních souborů
+ - program čte soubor destinations.txt v `2122ALG2-Jires-LeteckaSpolecnost\data`, ve kterém jsou na řádcích vypsané obsluhované destinace, poté co přečte destinaci začne pročítat jednotlivé .txt soubory s názvem destinace (pokud soubor není vytvořen - nejsou přířazeny lety), v jednotlivých souborech je na každém řádku let ve tvaru date, flight number, departure airport, arrival airport, departure time, arrival time, type of aircraft, registration of aircraft oddělených bílými znaky
+ - výstupem je pdf soubor palubní vstupenky cestujícího (ale pouze pokud o to v programu požádá) s informacemi o sedadle, času nástupu do letadla a letu
+ - výstupem je také pdf soubor s informacemi o letu pro zaměstnance letecké společnosti a seznamem jednotlivých cestujících s počty zavazadel a dalšíma informacema (pouze pokud cestující provede odbavení a je přiřazen na let)
+### Class diagram
+![image](https://user-images.githubusercontent.com/100781365/172136798-8591c52c-73ea-49fc-a8c3-ad02aef3abeb.png)
+
+## Testování
+
+## Popis fungování externí knihovny
+ - PDFBox
+ - open-source knihovna napsaná v Javě
+ - Umožňuje vytváření nových dokumentů PDF, manipulaci se stávajícími dokumenty, přidávání záložek do PDF a možnost extrahovat obsah z dokumentů PDF
+ - JAR file
