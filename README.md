@@ -76,7 +76,46 @@ Aplikace je tvořena pomocí hlavního menu a submenu. Uživatel zadává výbě
 ![image](https://user-images.githubusercontent.com/100781365/172136798-8591c52c-73ea-49fc-a8c3-ad02aef3abeb.png)
 
 ## Testování
-
+### 1. test - menu
+ - v menu by mělo být umožněno zadání pouze číslic 0, 1, 2, 3 a zadaní např. Stringu by mělo napsat "Request not found" a znova po uživateli chtít zadat číslo
+ - ![image](https://user-images.githubusercontent.com/100781365/172337107-871fcd8e-8251-423b-bbd3-71765f6fb939.png)
+ - **test prošel**
+### 2. test - velká/malá písmena
+ - Ve výběru destinace by mělo být uživateli umožněno napsat destinaci malými i velkými písmeny
+ - ![image](https://user-images.githubusercontent.com/100781365/172337942-f90b2fa0-d95a-441e-b248-19dbe230c12f.png)
+ - **test prošel**
+### 3. test - zakázané znaky
+ - Při vyplňování jména (i příjmení) by nemělo uživateli být umožněno vyplnit znaky mimo ASCII (háčky čárky) a program by měl vyžadovat opakování zadání
+ - ![image](https://user-images.githubusercontent.com/100781365/172338770-9cd70b18-7f2a-4913-b16d-552278ff8c5d.png)
+ - **test prošel**
+### 4. test - placení
+ - Pokud uživatel nezaplatí při rezervaci letu, mělo by mu být umožněno (a hlavně vyžadováno) zaplacení ve správě rezervace a dokud nezaplatí, nedostane se k odbavení
+ - ![image](https://user-images.githubusercontent.com/100781365/172339661-b6b6ad15-3398-4b0a-aa1e-99366685e6f8.png)
+ - **test prošel**
+### 5. test - generování palubní vsupenky
+ - Dokud uživatel neprovede odbavení, neměl by se dostat ke generování palubní vstupenky
+ - ![image](https://user-images.githubusercontent.com/100781365/172340132-0dac579b-66f5-4f5b-a7fd-5bec49542067.png)
+ - **test prošel**
+### 6. test - datum narození
+ - Nemělo by být povoleno zadat do datumu narození cokoliv jiného než číslo (int) v požadovaném rozsahu
+ - ![image](https://user-images.githubusercontent.com/100781365/172340748-4b3ecb29-d126-42de-9b11-26e137f2d3cd.png)
+ - **test prošel**
+### 7. test - pdf soubor
+ - Po dokončení odbavení by se měl program zeptat, zda uživatel požaduje uložení palubní vsupenky do pdf a palubní vstupenku by měl v pdf uložit
+ - ![image](https://user-images.githubusercontent.com/100781365/172342044-641b960c-8fed-4281-b5b3-64733d0745ee.png)
+ - **test prošel**
+### 8. test - znovuodbavení
+ - Má být zakázán přístup po odbavení do sekce odbavení
+ - ![image](https://user-images.githubusercontent.com/100781365/172342335-c9bb5eb4-97be-4678-8b14-80912dcbd006.png)
+ - **test prošel**
+### 9. test - zrušení letu
+ - Nemá být povoleno zrušit let po odbavení
+ - ![image](https://user-images.githubusercontent.com/100781365/172342585-af79008d-827b-4f22-aea1-662cbd37a6d7.png)
+ - **test prošel**
+### 10. test - znovuvyhledání rezervace
+ - Uživateli má být umožněno znovu vyhledat rezervaci
+ - ![image](https://user-images.githubusercontent.com/100781365/172344679-865bebd0-28e5-4693-af26-09e4183ab639.png)
+ - **test prošel**
 ## Popis fungování externí knihovny
  - PDFBox
  - open-source knihovna napsaná v Javě
