@@ -69,9 +69,13 @@ Aplikace je tvořena pomocí hlavního menu a submenu. Uživatel zadává výbě
   - `n` - nechci uložit palubní vstupenku
 
 ### Popis struktury vstupních a výstupních souborů
- - program čte soubor destinations.txt v `2122ALG2-Jires-LeteckaSpolecnost\data`, ve kterém jsou na řádcích vypsané obsluhované destinace, poté co přečte destinaci začne pročítat jednotlivé .txt soubory s názvem destinace (pokud soubor není vytvořen - nejsou přířazeny lety), v jednotlivých souborech je na každém řádku let ve tvaru date, flight number, departure airport, arrival airport, departure time, arrival time, type of aircraft, registration of aircraft oddělených bílými znaky
- - výstupem je pdf soubor palubní vstupenky cestujícího (ale pouze pokud o to v programu požádá) s informacemi o sedadle, času nástupu do letadla a letu
- - výstupem je také pdf soubor s informacemi o letu pro zaměstnance letecké společnosti a seznamem jednotlivých cestujících s počty zavazadel a dalšíma informacema (pouze pokud cestující provede odbavení a je přiřazen na let)
+ - program čte soubor destinations.txt v `2122ALG2-Jires-LeteckaSpolecnost\data`, ve kterém jsou na řádcích vypsané obsluhované destinace, poté co přečte destinaci začne pročítat jednotlivé .txt soubory s názvem destinace (pokud soubor není vytvořen - nejsou přířazeny lety), jednotlivé soubory s lety obsahují:
+   - datum, číslo letu, město odletu, město příletu, čas odletu, čas příletu, typ letadla a registrace letadla
+ - výstupem je pdf soubor palubní vstupenky cestujícího (ale pouze pokud o to v programu požádá) s informacemi:
+   - město odletu a příletu, číslo letu, datum letu, začátek nástupu do letadla (což je čas odletu - 30 min), sedadlo, jméno příjmení, pohlaví (enum Gender) M nebo F, typ dokumentu ID nebo Passport s číslem dokumentu, počet zavazadel a typ zavazadla small/large/no a číslo věrnostní kartičky
+ - výstupem je také pdf soubor pro zaměstnance letecké společnosti (pouze pokud cestující provede odbavení a je přiřazen na let) s:
+   - datumem, číslem letu, město odletu, město příletu, čas odletu a příletu, typ letadla
+   - seznamem jednolivých cestujících setříděných podle příjmení (jméno, příjmení, enum Gender M nebo F, enum typ dokumentu ID nebo Passport s číslem dokumentu, počet zavazadel a enum typ zavazadla Small/Large/No, sedadlo a enum catering YES nebo NO) 
 ### Class diagram
 ![image](https://user-images.githubusercontent.com/100781365/172136798-8591c52c-73ea-49fc-a8c3-ad02aef3abeb.png)
 
