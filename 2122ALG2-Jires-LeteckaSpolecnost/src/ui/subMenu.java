@@ -92,13 +92,13 @@ class subMenu {
         //zadání křestního jména
         System.out.println("your name:");
         String name;
-        while (!(name = sc.next()).matches(".*\\w.*")) {
+        while (!(name = sc.next()).matches("\\A\\p{ASCII}*\\z")) {
             System.out.println("please try again:");
         };
         //zadání příjmení
         String surname;
         System.out.println("your surname:");
-        while (!(surname = sc.next()).matches(".*\\w.*")) {
+        while (!(surname = sc.next()).matches("\\A\\p{ASCII}*\\z")) {
             System.out.println("please try again:");
         };
         
